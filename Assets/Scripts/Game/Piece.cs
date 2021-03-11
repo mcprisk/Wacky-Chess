@@ -64,5 +64,6 @@ public abstract class Piece : MonoBehaviour
         occupiedSquare = coords;
         this.board = board;
         transform.position = board.CalculatePositionFromCoords(coords);
+        transform.rotation = board.CalculateRotationFromCoords(coords);
     }
 }

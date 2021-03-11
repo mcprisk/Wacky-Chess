@@ -27,9 +27,9 @@ public class BoardLayout : ScriptableObject
             Debug.LogError("Index of piece is out of range");
             return new Vector3Int(-1, -1,-1);
         }
-        return new Vector3Int(boardSquares[index].position.x-1,
-            boardSquares[index].position.y - 1,
-            boardSquares[index].position.z - 1);
+        return new Vector3Int(boardSquares[index].position.x,
+            boardSquares[index].position.y,
+            boardSquares[index].position.z);
     }
 
     public string GetSquarePieceNameAtIndex(int index)
