@@ -9,7 +9,7 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{ECCC31DB-7D84-46E1-7B5B-5E59AC46B104}</ProjectGuid>
+    <ProjectGuid>{ACA06F0F-FA60-F6FB-3DC2-DC743D587FA7}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <AssemblyName>Assembly-CSharp</AssemblyName>
@@ -64,7 +64,37 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Scripts\Camera_Rotation.cs" />
+    <Compile Include="Assets\Scripts\Camera\Camera_Rotation.cs" />
+    <Compile Include="Assets\Scripts\Enums\PieceType.cs" />
+    <Compile Include="Assets\Scripts\Enums\TeamColor.cs" />
+    <Compile Include="Assets\Scripts\Game\Board.cs" />
+    <Compile Include="Assets\Scripts\Game\BoardLayout.cs" />
+    <Compile Include="Assets\Scripts\Game\GameController.cs" />
+    <Compile Include="Assets\Scripts\Game\Piece.cs" />
+    <Compile Include="Assets\Scripts\Game\PieceCreator.cs" />
+    <Compile Include="Assets\Scripts\Game\Pieces\Bishop.cs" />
+    <Compile Include="Assets\Scripts\Game\Pieces\Checker.cs" />
+    <Compile Include="Assets\Scripts\Game\Pieces\King.cs" />
+    <Compile Include="Assets\Scripts\Game\Pieces\Knight.cs" />
+    <Compile Include="Assets\Scripts\Game\Pieces\Pawn.cs" />
+    <Compile Include="Assets\Scripts\Game\Pieces\Queen.cs" />
+    <Compile Include="Assets\Scripts\Game\Pieces\Rook.cs" />
+    <Compile Include="Assets\Scripts\Game\Player.cs" />
+    <Compile Include="Assets\Scripts\Game\SquareSelectorCreator.cs" />
+    <Compile Include="Assets\Scripts\Input\AudioInputHandler.cs" />
+    <Compile Include="Assets\Scripts\Input\BoardInputHandler.cs" />
+    <Compile Include="Assets\Scripts\Input\ColliderInputReciever.cs" />
+    <Compile Include="Assets\Scripts\Input\InputHandler.cs" />
+    <Compile Include="Assets\Scripts\Input\InputReciever.cs" />
+    <Compile Include="Assets\Scripts\Input\UIInputHandler.cs" />
+    <Compile Include="Assets\Scripts\Input\UIInputReciever.cs" />
+    <Compile Include="Assets\Scripts\MaterialSetter.cs" />
+    <Compile Include="Assets\Scripts\Movement\ArcMover.cs" />
+    <Compile Include="Assets\Scripts\Movement\InstantMover.cs" />
+    <Compile Include="Assets\Scripts\Movement\LineMover.cs" />
+    <Compile Include="Assets\Scripts\Movement\Mover.cs" />
+    <Compile Include="Assets\Scripts\Movement\RotateMover.cs" />
+    <Compile Include="Assets\Scripts\UIButton.cs" />
     <Reference Include="UnityEngine">
       <HintPath>C:/Program Files/Unity/Hub/Editor/2019.4.21f1/Editor/Data/Managed/UnityEngine/UnityEngine.dll</HintPath>
     </Reference>
@@ -603,43 +633,43 @@
       <HintPath>C:/Program Files/Unity/Hub/Editor/2019.4.21f1/Editor/Data/NetStandard/compat/2.0.0/shims/netfx/System.Xml.Serialization.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Timeline.Editor">
-      <HintPath>E:/Projects/Unity/Wacky Chess/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
+      <HintPath>E:/Projects/Unity/Wacky_Chess/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.VSCode.Editor">
-      <HintPath>E:/Projects/Unity/Wacky Chess/Library/ScriptAssemblies/Unity.VSCode.Editor.dll</HintPath>
+      <HintPath>E:/Projects/Unity/Wacky_Chess/Library/ScriptAssemblies/Unity.VSCode.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.ProBuilder">
-      <HintPath>E:/Projects/Unity/Wacky Chess/Library/ScriptAssemblies/Unity.ProBuilder.dll</HintPath>
+      <HintPath>E:/Projects/Unity/Wacky_Chess/Library/ScriptAssemblies/Unity.ProBuilder.dll</HintPath>
     </Reference>
     <Reference Include="Unity.ProBuilder.Editor">
-      <HintPath>E:/Projects/Unity/Wacky Chess/Library/ScriptAssemblies/Unity.ProBuilder.Editor.dll</HintPath>
+      <HintPath>E:/Projects/Unity/Wacky_Chess/Library/ScriptAssemblies/Unity.ProBuilder.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.ProBuilder.AssetIdRemapUtility">
-      <HintPath>E:/Projects/Unity/Wacky Chess/Library/ScriptAssemblies/Unity.ProBuilder.AssetIdRemapUtility.dll</HintPath>
+      <HintPath>E:/Projects/Unity/Wacky_Chess/Library/ScriptAssemblies/Unity.ProBuilder.AssetIdRemapUtility.dll</HintPath>
     </Reference>
     <Reference Include="Unity.TextMeshPro.Editor">
-      <HintPath>E:/Projects/Unity/Wacky Chess/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
+      <HintPath>E:/Projects/Unity/Wacky_Chess/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UI">
-      <HintPath>E:/Projects/Unity/Wacky Chess/Library/ScriptAssemblies/UnityEngine.UI.dll</HintPath>
+      <HintPath>E:/Projects/Unity/Wacky_Chess/Library/ScriptAssemblies/UnityEngine.UI.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Timeline">
-      <HintPath>E:/Projects/Unity/Wacky Chess/Library/ScriptAssemblies/Unity.Timeline.dll</HintPath>
+      <HintPath>E:/Projects/Unity/Wacky_Chess/Library/ScriptAssemblies/Unity.Timeline.dll</HintPath>
     </Reference>
     <Reference Include="Unity.CollabProxy.Editor">
-      <HintPath>E:/Projects/Unity/Wacky Chess/Library/ScriptAssemblies/Unity.CollabProxy.Editor.dll</HintPath>
+      <HintPath>E:/Projects/Unity/Wacky_Chess/Library/ScriptAssemblies/Unity.CollabProxy.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Rider.Editor">
-      <HintPath>E:/Projects/Unity/Wacky Chess/Library/ScriptAssemblies/Unity.Rider.Editor.dll</HintPath>
+      <HintPath>E:/Projects/Unity/Wacky_Chess/Library/ScriptAssemblies/Unity.Rider.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.ProBuilder.AddOns.Editor">
-      <HintPath>E:/Projects/Unity/Wacky Chess/Library/ScriptAssemblies/Unity.ProBuilder.AddOns.Editor.dll</HintPath>
+      <HintPath>E:/Projects/Unity/Wacky_Chess/Library/ScriptAssemblies/Unity.ProBuilder.AddOns.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.TextMeshPro">
-      <HintPath>E:/Projects/Unity/Wacky Chess/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
+      <HintPath>E:/Projects/Unity/Wacky_Chess/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor.UI">
-      <HintPath>E:/Projects/Unity/Wacky Chess/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
+      <HintPath>E:/Projects/Unity/Wacky_Chess/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup></ItemGroup>
