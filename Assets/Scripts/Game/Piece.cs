@@ -12,7 +12,7 @@ public abstract class Piece : MonoBehaviour
 
     public Board board { protected get; set; }
 
-    public Vector3Int occupiedSquare { get; set; }
+    public Vector3Int occupiedSquare;
 
     public TeamColor team { get; set; }
 
@@ -51,9 +51,10 @@ public abstract class Piece : MonoBehaviour
     public virtual void MovePiece(Vector3Int coords)
     {
         Vector3 targetPosition = board.CalculatePositionFromCoords(coords);
+        Quaternion targetRotation = board.CalculateRotationFromCoords(coords);
         occupiedSquare = coords;
         hasMoved = true;
-        mover.MoveTo(transform, targetPosition);
+        mover.MoveTo(transform, targetPosition, targetRotation);
     }
 
     protected void TryToAddMove(Vector3Int coords)

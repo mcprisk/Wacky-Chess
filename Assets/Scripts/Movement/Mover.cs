@@ -2,5 +2,5 @@
 
 public interface Mover
 {
-    void MoveTo(Transform transform, Vector3 targetPosition);
+    void MoveTo(Transform transform, Vector3 targetPosition, Quaternion targetRotation);
 }

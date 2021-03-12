@@ -11,7 +11,7 @@ public class Board : MonoBehaviour
     [SerializeField] private Transform YZTransform;
     [SerializeField] private Transform XYTransform;
 
-    [SerializeField] private float squareSize;
+    [SerializeField] private int squareSize;
 
     private Piece[,,] grid;
     private Piece selectedPiece;
@@ -200,12 +200,26 @@ public class Board : MonoBehaviour
     private Vector3Int CalculateCoordsFromPosition(Vector3 inputPosition)
     {
         Debug.Log(inputPosition);
-        int x = Mathf.FloorToInt(transform.InverseTransformPoint(inputPosition).x 
-            / squareSize) + BOARD_SIZE / 2;
-        int y = Mathf.FloorToInt(transform.InverseTransformPoint(inputPosition).y 
-            / squareSize) + BOARD_SIZE / 2;
-        int z = Mathf.FloorToInt((32 + transform.InverseTransformPoint(inputPosition).z) 
-            / squareSize) + BOARD_SIZE / 2;
+
+        int x;
+        int y;
+        int z;
+
+        if (inputPosition.x > 4 && inputPosition.x < 28)
+            x = Mathf.RoundToInt((inputPosition.x - 2) / squareSize);
+        else
+            x = inputPosition.x < 4 ? 0 : 7;
+
+        if (inputPosition.y > 4 && inputPosition.y < 28)
+            y = Mathf.RoundToInt((inputPosition.y - 2) / squareSize);
+        else
+            y = inputPosition.y < 4 ? 0 : 7;
+
+        if (inputPosition.z < -4 && inputPosition.z > -28)
+            z = 7 - Mathf.RoundToInt((-inputPosition.z - 2) / squareSize);
+        else
+            z = inputPosition.z > -4 ? 0 : 7;
+
         Debug.Log(new Vector3Int(x, y, z));
         return new Vector3Int(x, y, z);
     }
@@ -342,10 +356,11 @@ public class Board : MonoBehaviour
         }
         else
         {
-            if(piece != null && gameController.IsTeamTurnActive(piece.team))
+            if (piece != null && gameController.IsTeamTurnActive(piece.team))
             {
                 SelectPiece(piece);
             }
+            Debug.Log(selectedPiece);
         }
     }
 

@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class InstantMover : MonoBehaviour, Mover
 {
-    public void MoveTo(Transform transform, Vector3 targetPosition)
+    public void MoveTo(Transform transform, Vector3 targetPosition, Quaternion targetRotation)
     {
         transform.position = targetPosition;
+        transform.rotation = targetRotation;
     }
 }
