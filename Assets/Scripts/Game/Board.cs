@@ -218,7 +218,7 @@ public class Board : MonoBehaviour
         if (inputPosition.z < -4 && inputPosition.z > -28)
             z = 7 - Mathf.RoundToInt((-inputPosition.z - 2) / squareSize);
         else
-            z = inputPosition.z > -4 ? 0 : 7;
+            z = inputPosition.z > -4 ? 7 : 0;
 
         Debug.Log(new Vector3Int(x, y, z));
         return new Vector3Int(x, y, z);
