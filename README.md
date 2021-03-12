@@ -9,6 +9,11 @@ Then, set this repository as the remote origin:
 ```bash
 $ git remote add origin "https://github.com/mcprisk/Wacky-Chess.git"
 ```
+Lastly, remove excess files from your local repository:
+```bash
+$ rm -rf ProjectSettings
+$ rm -rf Packages
+```
 # Making Changes
 Next pull the remote repository into your local repository:
 ```bash
