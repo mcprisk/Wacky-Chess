@@ -11,14 +11,25 @@ public class GameController : MonoBehaviour
 
     private PieceCreator pieceCreator;
 
+    private Player whitePlayer;
+    private Player blackPlayer;
+    private Player activePlayer;
+
     private void Awake()
     {
         SetDependencies();
+        CreatePlayers();
     }
 
     private void SetDependencies()
     {
         pieceCreator = GetComponent<PieceCreator>();
+    }
+
+    private void CreatePlayers()
+    {
+        whitePlayer = new Player(TeamColor.White, board);
+        blackPlayer = new Player(TeamColor.Black, board);
     }
 
     void Start()
@@ -28,7 +39,10 @@ public class GameController : MonoBehaviour
 
     private void StartNewGame()
     {
+        board.SetDependencies(this);
         CreatePiecesFromLayout(startingBoardLayout);
+        activePlayer = whitePlayer;
+        GenerateAllPossiblePlayerMoves(activePlayer);
     }
 
     private void CreatePiecesFromLayout(BoardLayout layout)
@@ -51,5 +65,37 @@ public class GameController : MonoBehaviour
 
         Material teamMaterial = pieceCreator.GetTeamMaterial(team);
         newPiece.SetMaterial(teamMaterial);
+
+        board.SetPieceOnBoard(squareCoords, newPiece);
+
+        Player currentPlayer = team == TeamColor.White ? whitePlayer : blackPlayer;
+        currentPlayer.AddPiece(newPiece);
+    }
+
+    private void GenerateAllPossiblePlayerMoves(Player player)
+    {
+        player.GenerateAllPossibleMoves();
+    }
+
+    internal bool IsTeamTurnActive(TeamColor team)
+    {
+        return team == activePlayer.team;
+    }
+
+    internal void EndTurn()
+    {
+        GenerateAllPossiblePlayerMoves(activePlayer);
+        GenerateAllPossiblePlayerMoves(GetOpponentToPlayer(activePlayer));
+        ChangeActiveTeam();
+    }
+
+    private void ChangeActiveTeam()
+    {
+        activePlayer = activePlayer == whitePlayer ? blackPlayer : whitePlayer;
+    }
+
+    private Player GetOpponentToPlayer(Player player)
+    {
+        return player == whitePlayer ? blackPlayer : whitePlayer;
     }
 }

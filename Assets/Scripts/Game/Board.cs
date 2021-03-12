@@ -5,14 +5,34 @@ using UnityEngine;
 
 public class Board : MonoBehaviour
 {
+    public const int BOARD_SIZE = 8;
+
     [SerializeField] private Transform XZTransform;
     [SerializeField] private Transform YZTransform;
     [SerializeField] private Transform XYTransform;
+
     [SerializeField] private float squareSize;
 
-    private const float flip_distance = 32;
+    private Piece[,,] grid;
+    private Piece selectedPiece;
+    private GameController gameController;
 
-    internal Vector3 CalculatePositionFromCoords(Vector3Int coords)
+    private void Awake()
+    {
+        CreateGrid();
+    }
+
+    public void SetDependencies(GameController gameController)
+    {
+        this.gameController = gameController;
+    }
+
+    private void CreateGrid()
+    {
+        grid = new Piece[BOARD_SIZE, BOARD_SIZE, BOARD_SIZE];
+    }
+
+    public Vector3 CalculatePositionFromCoords(Vector3Int coords)
     {
         // If 2 zeros or sevens, then coords are on a 45
         // If 1 zero or seven, then coords are on a wall
@@ -131,7 +151,7 @@ public class Board : MonoBehaviour
             {
                 return XZTransform.position + new Vector3(
                     (coords.x - 1) * squareSize,
-                    flip_distance,
+                    32f,
                     (coords.z - 1) * squareSize);
             }
 
@@ -148,7 +168,7 @@ public class Board : MonoBehaviour
             else if (coords.x == 7)
             {
                 return YZTransform.position + new Vector3(
-                    flip_distance,
+                    32f,
                     (coords.y - 1) * squareSize,
                     (coords.z - 1) * squareSize);
             }
@@ -168,16 +188,29 @@ public class Board : MonoBehaviour
                 return XYTransform.position + new Vector3(
                     (coords.x - 1) * squareSize,
                     (coords.y - 1) * squareSize,
-                    flip_distance);
+                    32f);
             }
         }
 
 
         Debug.LogError("Invalid Piece Location - Pos");
         return new Vector3Int(-1, -1, -1);
-    }        
-    
-    internal Quaternion CalculateRotationFromCoords(Vector3Int coords)
+    }
+
+    private Vector3Int CalculateCoordsFromPosition(Vector3 inputPosition)
+    {
+        Debug.Log(inputPosition);
+        int x = Mathf.FloorToInt(transform.InverseTransformPoint(inputPosition).x 
+            / squareSize) + BOARD_SIZE / 2;
+        int y = Mathf.FloorToInt(transform.InverseTransformPoint(inputPosition).y 
+            / squareSize) + BOARD_SIZE / 2;
+        int z = Mathf.FloorToInt((32 + transform.InverseTransformPoint(inputPosition).z) 
+            / squareSize) + BOARD_SIZE / 2;
+        Debug.Log(new Vector3Int(x, y, z));
+        return new Vector3Int(x, y, z);
+    }
+
+    public Quaternion CalculateRotationFromCoords(Vector3Int coords)
     {
         // If 2 zeros or sevens, then coords are on a 45
         // If 1 zero or seven, then coords are on a wall
@@ -282,8 +315,108 @@ public class Board : MonoBehaviour
         }
 
         // NOT ON A FACE
-        
+
         Debug.LogError("Invalid Piece Location - Rot");
         return new Quaternion();
+    }
+
+    public void OnSquareSelected(Vector3 inputPosition)
+    {
+        Vector3Int coords = CalculateCoordsFromPosition(inputPosition);
+        Piece piece = GetPieceOnSquare(coords);
+        if (selectedPiece)
+        {
+            if (piece != null && selectedPiece == piece)
+            {
+                DeselectPiece();
+            }
+            else if (piece != null && selectedPiece != piece && 
+                gameController.IsTeamTurnActive(piece.team))
+            {
+                SelectPiece(piece);
+            }
+            else if (selectedPiece.CanMoveTo(coords))
+            {
+                OnSelectedPieceMoved(coords, selectedPiece);
+            }
+        }
+        else
+        {
+            if(piece != null && gameController.IsTeamTurnActive(piece.team))
+            {
+                SelectPiece(piece);
+            }
+        }
+    }
+
+    private void SelectPiece(Piece piece)
+    {
+        selectedPiece = piece;
+    }
+
+    private void DeselectPiece()
+    {
+        selectedPiece = null;
+    }
+    private void OnSelectedPieceMoved(Vector3Int coords, Piece piece)
+    {
+        UpdateBoardOnPieceMove(coords, piece.occupiedSquare, piece, null);
+        selectedPiece.MovePiece(coords);
+        DeselectPiece();
+        EndTurn();
+    }
+
+    private void EndTurn()
+    {
+        gameController.EndTurn();
+    }
+
+    private void UpdateBoardOnPieceMove(Vector3Int newCoords, Vector3Int oldCoords, 
+        Piece newPiece, Piece oldPiece)
+    {
+        grid[oldCoords.x, oldCoords.y, oldCoords.z] = oldPiece;
+        grid[newCoords.x, newCoords.y, newCoords.z] = newPiece;
+    }
+
+    private Piece GetPieceOnSquare(Vector3Int coords)
+    {
+        if (CheckIfCoordsAreOnBoard(coords))
+        {
+            return grid[coords.x, coords.y, coords.z];
+        }
+        return null;
+    }
+
+    private bool CheckIfCoordsAreOnBoard(Vector3Int coords)
+    {
+        if (coords.x < 0 || coords.x >= BOARD_SIZE ||
+            coords.y < 0 || coords.y >= BOARD_SIZE ||
+            coords.z < 0 || coords.z >= BOARD_SIZE)
+            return false;
+        return true;
+    }
+
+    public bool HasPiece(Piece piece)
+    {
+        for (int i = 0; i < BOARD_SIZE; ++i)
+        {
+            for (int j = 0; j < BOARD_SIZE; ++j)
+            {
+                for (int k = 0; k < BOARD_SIZE; ++k)
+                {
+                    if (grid[i, j, k] == piece)
+                        return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public void SetPieceOnBoard(Vector3Int coords, Piece piece)
+    {
+        if (CheckIfCoordsAreOnBoard(coords))
+        {
+            grid[coords.x, coords.y, coords.z] = piece;
+        }
     }
 }

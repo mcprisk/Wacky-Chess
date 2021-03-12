@@ -2,17 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class InstantMover : MonoBehaviour
+public class InstantMover : MonoBehaviour, Mover
 {
-    // Start is called before the first frame update
-    void Start()
+    public void MoveTo(Transform transform, Vector3 targetPosition)
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        transform.position = targetPosition;
     }
 }

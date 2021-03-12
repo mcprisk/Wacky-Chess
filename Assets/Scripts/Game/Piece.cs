@@ -50,7 +50,10 @@ public abstract class Piece : MonoBehaviour
 
     public virtual void MovePiece(Vector3Int coords)
     {
-
+        Vector3 targetPosition = board.CalculatePositionFromCoords(coords);
+        occupiedSquare = coords;
+        hasMoved = true;
+        mover.MoveTo(transform, targetPosition);
     }
 
     protected void TryToAddMove(Vector3Int coords)
