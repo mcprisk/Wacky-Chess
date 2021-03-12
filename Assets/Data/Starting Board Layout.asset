@@ -18,7 +18,16 @@ MonoBehaviour:
     teamColor: 0
   - position: {x: 1, y: 1, z: 0}
     pieceType: 2
-    teamColor: 0
+    teamColor: 1
   - position: {x: 0, y: 1, z: 1}
     pieceType: 5
     teamColor: 0
+  - position: {x: 1, y: 7, z: 1}
+    pieceType: 1
+    teamColor: 1
+  - position: {x: 7, y: 1, z: 1}
+    pieceType: 4
+    teamColor: 1
+  - position: {x: 1, y: 1, z: 7}
+    pieceType: 0
+    teamColor: 1
