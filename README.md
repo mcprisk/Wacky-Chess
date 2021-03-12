@@ -17,14 +17,14 @@ $ rm -rf Packages
 # Making Changes
 Next pull the remote repository into your local repository:
 ```bash
-$ git pull
+$ git pull origin master
 ```
 Now you can make whatever changes you want in unity or an IDE of your choosing. You need to do this step every time you want to make a change!  
 
 # Check for Remote Changes
 After making your changes check to make sure your local repository is still up to date:
 ```bash
-$ git pull
+$ git pull origin master
 ```
 Note: this is not the best method for checking for remote changes, but is the easiest to understand.
 If there were updates that were merged when you pulled, make sure your changes still work before continuing to the next step!
@@ -40,7 +40,7 @@ $ git commit -m "This is (not) a very Descriptive Message!"
 ```
 Finally push your changes to the repository:
 ```bash
-$ git push
+$ git push origin master
 ```
 **DO NOT USE "git push -f" OR "git push --force"**.
 Ask for help if you are having trouble pushing to the repository first!
