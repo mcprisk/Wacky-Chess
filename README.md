@@ -1,6 +1,6 @@
 # Wacky Chess
 Reforming Chess: Playing Chess (or Checkers) Inside of a Cube
-# Initial Setup
+## Initial Setup
 To contribute to this project, create a new, empty unity project and initialize a local git repository within that folder:
 ```bash
 $ git init
@@ -14,14 +14,14 @@ Lastly, remove excess files from your local repository:
 $ rm -rf ProjectSettings
 $ rm -rf Packages
 ```
-# Making Changes
+## Making Changes
 Next pull the remote repository into your local repository:
 ```bash
 $ git pull origin master
 ```
 Now you can make whatever changes you want in unity or an IDE of your choosing. You need to do this step every time you want to make a change!  
 
-# Check for Remote Changes
+## Check for Remote Changes
 After making your changes check to make sure your local repository is still up to date:
 ```bash
 $ git pull origin master
@@ -29,10 +29,10 @@ $ git pull origin master
 Note: this is not the best method for checking for remote changes, but is the easiest to understand.
 If there were updates that were merged when you pulled, make sure your changes still work before continuing to the next step!
 
-# Push your Changes
+## Push your Changes
 stage them to be commited by running:
 ```bash
-$ git add .
+$ git add "FilenameToAdd (use git status to see what files you've changed and only add ones you intended to change)"
 ```
 Then commit your changes with a descriptive message:
 ```bash
