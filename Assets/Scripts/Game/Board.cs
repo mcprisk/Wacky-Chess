@@ -201,6 +201,12 @@ public class Board : MonoBehaviour
         return new Vector3Int(-1, -1, -1);
     }
 
+    internal void onGameRestart()
+    {
+        selectedPiece = null;
+        CreateGrid();
+    }
+
     private Vector3Int CalculateCoordsFromPosition(Vector3 inputPosition)
     {
         //Debug.Log(inputPosition);

@@ -12,6 +12,7 @@ public class GameController : MonoBehaviour
 
     [SerializeField] private BoardLayout startingBoardLayout;
     [SerializeField] private Board board;
+    [SerializeField] private UIManager uiManager;
 
     private PieceCreator pieceCreator;
 
@@ -42,14 +43,38 @@ public class GameController : MonoBehaviour
         StartNewGame();
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            uiManager.ToggleMenu();
+        }
+    }
+
     private void StartNewGame()
     {
+        uiManager.HideUI();
         SetGameState(GameState.Init);
         board.SetDependencies(this);
         CreatePiecesFromLayout(startingBoardLayout);
         activePlayer = whitePlayer;
         GenerateAllPossiblePlayerMoves(activePlayer);
         SetGameState(GameState.Play);
+    }
+
+    public void RestartGame()
+    {
+        DestroyPieces();
+        board.onGameRestart();
+        whitePlayer.OnGameRestart();
+        blackPlayer.OnGameRestart();
+        StartNewGame();
+    }
+
+    private void DestroyPieces()
+    {
+        whitePlayer.activePieces.ForEach(p => Destroy(p.gameObject));
+        blackPlayer.activePieces.ForEach(p => Destroy(p.gameObject));
     }
 
     private void CreatePiecesFromLayout(BoardLayout layout)
@@ -99,7 +124,7 @@ public class GameController : MonoBehaviour
 
     private void EndGame()
     {
-        Debug.Log("Our work here is done");
+        uiManager.OnGameFinished(activePlayer.team.ToString());
         SetGameState(GameState.Finished);
     }
 
@@ -155,7 +180,7 @@ public class GameController : MonoBehaviour
         Destroy(piece.gameObject);
     }
 
-    internal void RemoveMovesEnablingAttackOnSameColor(Piece piece)
+    public void RemoveMovesEnablingAttackOnSameColor(Piece piece)
     {
         activePlayer.RemoveMovesEnablingAttackOnSameColor(piece);
     }

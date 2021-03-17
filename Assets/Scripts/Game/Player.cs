@@ -67,6 +67,11 @@ public class Player
         }
     }
 
+    internal void OnGameRestart()
+    {
+        activePieces.Clear();
+    }
+
     private bool CheckIfIsAttackingPiece<T>() where T : Piece
     {
         foreach (var piece in activePieces)
