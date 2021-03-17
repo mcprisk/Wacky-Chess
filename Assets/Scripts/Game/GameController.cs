@@ -99,6 +99,7 @@ public class GameController : MonoBehaviour
 
     private void EndGame()
     {
+        Debug.Log("Our work here is done");
         SetGameState(GameState.Finished);
     }
 
@@ -152,5 +153,10 @@ public class GameController : MonoBehaviour
         Player owner = (piece.team == TeamColor.White) ? whitePlayer : blackPlayer;
         owner.RemovePiece(piece);
         Destroy(piece.gameObject);
+    }
+
+    internal void RemoveMovesEnablingAttackOnSameColor(Piece piece)
+    {
+        activePlayer.RemoveMovesEnablingAttackOnSameColor(piece);
     }
 }

@@ -77,7 +77,7 @@ public class Player
         return false;
     }
 
-    internal bool CanHidePieceFromAttack<T>(Player opponent) where T : Piece
+    public bool CanHidePieceFromAttack<T>(Player opponent) where T : Piece
     {
         foreach (var piece in activePieces)
         {
@@ -95,5 +95,22 @@ public class Player
             }
         }
         return false;
+    }
+
+    public void RemoveMovesEnablingAttackOnSameColor(Piece piece)
+    {
+        List<Vector3Int> coordsToRemove = new List<Vector3Int>();
+        foreach (var move in piece.avaliableMoves)
+        {
+            Piece pieceOnCoords = board.GetPieceOnSquare(move);
+            if (pieceOnCoords != null && pieceOnCoords.IsFromSameTeam(piece))
+            {
+                coordsToRemove.Add(move);
+            }
+        }
+        foreach (var coords in coordsToRemove)
+        {
+            piece.avaliableMoves.Remove(coords);
+        }
     }
 }

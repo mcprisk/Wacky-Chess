@@ -373,6 +373,7 @@ public class Board : MonoBehaviour
     private void SelectPiece(Piece piece)
     {
         gameController.RemoveMovesEnablingAttackOn<King>(piece);
+        gameController.RemoveMovesEnablingAttackOnSameColor(piece);
         selectedPiece = piece;
         List<Vector3Int> selection = selectedPiece.avaliableMoves;
         ShowSelectionSquares(selection);

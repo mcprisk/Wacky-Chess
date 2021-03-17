@@ -55,7 +55,9 @@ public abstract class Piece : MonoBehaviour
     {
         foreach (var square in avaliableMoves)
         {
-            if (board.GetPieceOnSquare(square) is T) return true;
+            if (board.GetPieceOnSquare(square) is T && 
+                !this.IsFromSameTeam(board.GetPieceOnSquare(square))) 
+                return true;
         }
         return false;
     }
