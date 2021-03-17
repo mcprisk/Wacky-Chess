@@ -19,3 +19,6 @@ MonoBehaviour:
   - position: {x: 4, y: 4, z: 0}
     pieceType: 4
     teamColor: 0
+  - position: {x: 3, y: 0, z: 1}
+    pieceType: 3
+    teamColor: 1

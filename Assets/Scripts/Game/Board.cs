@@ -454,7 +454,11 @@ public class Board : MonoBehaviour
             coords.z < 0 || coords.z >= BOARD_SIZE ||
             ((coords.x == 0 || coords.x == 7) &&
             (coords.y == 0 || coords.y == 7) &&
-            (coords.z == 0 || coords.z == 7)))
+            (coords.z == 0 || coords.z == 7)) || 
+            (coords.x == 0 && coords.y == 0) || // Blocked off areas
+            (coords.x == 7 && coords.y == 0) ||
+            (coords.z == 0 && coords.y == 7) ||
+            (coords.z == 7 && coords.y == 7))
             return false;
         return true;
     }
