@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(SquareSelectorCreator))]
+
 public class Board : MonoBehaviour
 {
     public const int BOARD_SIZE = 8;
@@ -16,9 +18,11 @@ public class Board : MonoBehaviour
     private Piece[,,] grid;
     private Piece selectedPiece;
     private GameController gameController;
+    private SquareSelectorCreator squareSelector;
 
     private void Awake()
     {
+        squareSelector = GetComponent<SquareSelectorCreator>();
         CreateGrid();
     }
 
@@ -193,13 +197,13 @@ public class Board : MonoBehaviour
         }
 
 
-        Debug.LogError("Invalid Piece Location - Pos");
+        //Debug.LogError("Invalid Piece Location - Pos");
         return new Vector3Int(-1, -1, -1);
     }
 
     private Vector3Int CalculateCoordsFromPosition(Vector3 inputPosition)
     {
-        Debug.Log(inputPosition);
+        //Debug.Log(inputPosition);
 
         int x;
         int y;
@@ -220,7 +224,7 @@ public class Board : MonoBehaviour
         else
             z = inputPosition.z > -4 ? 7 : 0;
 
-        Debug.Log(new Vector3Int(x, y, z));
+        //Debug.Log(new Vector3Int(x, y, z));
         return new Vector3Int(x, y, z);
     }
 
@@ -330,7 +334,7 @@ public class Board : MonoBehaviour
 
         // NOT ON A FACE
 
-        Debug.LogError("Invalid Piece Location - Rot");
+        //Debug.LogError("Invalid Piece Location - Rot");
         return new Quaternion();
     }
 
@@ -360,18 +364,37 @@ public class Board : MonoBehaviour
             {
                 SelectPiece(piece);
             }
-            Debug.Log(selectedPiece);
+            //Debug.Log(selectedPiece);
         }
     }
 
     private void SelectPiece(Piece piece)
     {
         selectedPiece = piece;
+        List<Vector3Int> selection = selectedPiece.avaliableMoves;
+        ShowSelectionSquares(selection);
     }
 
+    private void ShowSelectionSquares(List<Vector3Int> selection)
+    {
+        Dictionary<Tuple<Vector3, Quaternion>, bool> squaresData = 
+            new Dictionary<Tuple<Vector3, Quaternion>, bool>();
+        for (int i = 0; i < selection.Count; ++i)
+        {
+            Vector3 position = CalculatePositionFromCoords(selection[i]);
+            if (position != new Vector3(-1,-1,-1))
+            {
+                Quaternion rotation = CalculateRotationFromCoords(selection[i]);
+                bool isSquareFree = GetPieceOnSquare(selection[i]) == null;
+                squaresData.Add(new Tuple<Vector3, Quaternion>(position, rotation), isSquareFree);
+            }
+        }
+        squareSelector.ShowSelection(squaresData);
+    }
     private void DeselectPiece()
     {
         selectedPiece = null;
+        squareSelector.ClearSelections();
     }
     private void OnSelectedPieceMoved(Vector3Int coords, Piece piece)
     {
@@ -393,7 +416,7 @@ public class Board : MonoBehaviour
         grid[newCoords.x, newCoords.y, newCoords.z] = newPiece;
     }
 
-    private Piece GetPieceOnSquare(Vector3Int coords)
+    public Piece GetPieceOnSquare(Vector3Int coords)
     {
         if (CheckIfCoordsAreOnBoard(coords))
         {
@@ -402,11 +425,14 @@ public class Board : MonoBehaviour
         return null;
     }
 
-    private bool CheckIfCoordsAreOnBoard(Vector3Int coords)
+    public bool CheckIfCoordsAreOnBoard(Vector3Int coords)
     {
         if (coords.x < 0 || coords.x >= BOARD_SIZE ||
             coords.y < 0 || coords.y >= BOARD_SIZE ||
-            coords.z < 0 || coords.z >= BOARD_SIZE)
+            coords.z < 0 || coords.z >= BOARD_SIZE ||
+            ((coords.x == 0 || coords.x == 7) &&
+            (coords.y == 0 || coords.y == 7) &&
+            (coords.z == 0 || coords.z == 7)))
             return false;
         return true;
     }

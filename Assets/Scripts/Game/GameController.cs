@@ -17,6 +17,7 @@ public class GameController : MonoBehaviour
 
     private void Awake()
     {
+        Application.targetFrameRate = 144;
         SetDependencies();
         CreatePlayers();
     }
