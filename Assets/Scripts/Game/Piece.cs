@@ -21,7 +21,15 @@ public abstract class Piece : MonoBehaviour
 
     private Mover mover;
 
-    public abstract List<Vector3Int> SelectAvaliableSquares();
+    public virtual List<Vector3Int> SelectAvaliableSquares()
+    {
+        foreach (var move in avaliableMoves.ToArray())
+        {
+            if (!board.CheckIfCoordsAreOnBoard(move))
+                avaliableMoves.Remove(move);
+        }
+        return avaliableMoves;
+    }
 
     private void Awake()
     {
@@ -41,6 +49,15 @@ public abstract class Piece : MonoBehaviour
     public bool IsFromSameTeam(Piece piece)
     {
         return team == piece.team;
+    }
+
+    public bool isAttackingPiece<T>() where T : Piece
+    {
+        foreach (var square in avaliableMoves)
+        {
+            if (board.GetPieceOnSquare(square) is T) return true;
+        }
+        return false;
     }
 
     public bool CanMoveTo(Vector3Int coords)

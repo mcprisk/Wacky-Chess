@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,6 +7,9 @@ using UnityEngine;
 [RequireComponent(typeof(PieceCreator))]
 public class GameController : MonoBehaviour
 {
+    private enum GameState { Init, Play, Finished };
+    private GameState state;
+
     [SerializeField] private BoardLayout startingBoardLayout;
     [SerializeField] private Board board;
 
@@ -40,10 +44,12 @@ public class GameController : MonoBehaviour
 
     private void StartNewGame()
     {
+        SetGameState(GameState.Init);
         board.SetDependencies(this);
         CreatePiecesFromLayout(startingBoardLayout);
         activePlayer = whitePlayer;
         GenerateAllPossiblePlayerMoves(activePlayer);
+        SetGameState(GameState.Play);
     }
 
     private void CreatePiecesFromLayout(BoardLayout layout)
@@ -87,7 +93,43 @@ public class GameController : MonoBehaviour
     {
         GenerateAllPossiblePlayerMoves(activePlayer);
         GenerateAllPossiblePlayerMoves(GetOpponentToPlayer(activePlayer));
-        ChangeActiveTeam();
+        if (CheckIfGameIsFinished()) EndGame();
+        else ChangeActiveTeam();
+    }
+
+    private void EndGame()
+    {
+        SetGameState(GameState.Finished);
+    }
+
+    private void SetGameState(GameState state)
+    {
+        this.state = state;
+    }
+
+    private bool CheckIfGameIsFinished()
+    {
+        Piece[] piecesAttackingKing = activePlayer.GetPiecesAttacking<King>();
+        if (piecesAttackingKing.Length > 0)
+        {
+            Player oppositePlayer = GetOpponentToPlayer(activePlayer);
+            Piece attackedKing = oppositePlayer.GetPieces<King>().FirstOrDefault();
+            oppositePlayer.RemoveMovesEnablingAttackOn<King>(activePlayer, attackedKing);
+
+            int avaliableKingMoves = attackedKing.avaliableMoves.Count;
+            if (avaliableKingMoves == 0)
+            {
+                bool canProtectKing = oppositePlayer.CanHidePieceFromAttack<King>(activePlayer);
+                if (!canProtectKing) 
+                    return true;
+            }
+        }
+        return false;
+    }
+
+    public bool IsGameInProgress()
+    {
+        return state == GameState.Play;
     }
 
     private void ChangeActiveTeam()
@@ -98,5 +140,17 @@ public class GameController : MonoBehaviour
     private Player GetOpponentToPlayer(Player player)
     {
         return player == whitePlayer ? blackPlayer : whitePlayer;
+    }
+
+    public void RemoveMovesEnablingAttackOn<T>(Piece piece) where T : Piece
+    {
+        activePlayer.RemoveMovesEnablingAttackOn<T>(GetOpponentToPlayer(activePlayer), piece);
+    }
+
+    public void OnPieceRemoved(Piece piece)
+    {
+        Player owner = (piece.team == TeamColor.White) ? whitePlayer : blackPlayer;
+        owner.RemovePiece(piece);
+        Destroy(piece.gameObject);
     }
 }

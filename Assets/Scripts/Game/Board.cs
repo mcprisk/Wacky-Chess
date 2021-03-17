@@ -340,6 +340,8 @@ public class Board : MonoBehaviour
 
     public void OnSquareSelected(Vector3 inputPosition)
     {
+        if (!gameController.IsGameInProgress()) return;
+
         Vector3Int coords = CalculateCoordsFromPosition(inputPosition);
         Piece piece = GetPieceOnSquare(coords);
         if (selectedPiece)
@@ -370,6 +372,7 @@ public class Board : MonoBehaviour
 
     private void SelectPiece(Piece piece)
     {
+        gameController.RemoveMovesEnablingAttackOn<King>(piece);
         selectedPiece = piece;
         List<Vector3Int> selection = selectedPiece.avaliableMoves;
         ShowSelectionSquares(selection);
@@ -398,10 +401,28 @@ public class Board : MonoBehaviour
     }
     private void OnSelectedPieceMoved(Vector3Int coords, Piece piece)
     {
+        TryToTakeOppositePiece(coords);
         UpdateBoardOnPieceMove(coords, piece.occupiedSquare, piece, null);
         selectedPiece.MovePiece(coords);
         DeselectPiece();
         EndTurn();
+    }
+
+    private void TryToTakeOppositePiece(Vector3Int coords)
+    {
+        Piece piece = GetPieceOnSquare(coords);
+        if (piece != null && !selectedPiece.IsFromSameTeam(piece))
+            TakePiece(piece);
+
+    }
+
+    private void TakePiece(Piece piece)
+    {
+        if (piece)
+        {
+            grid[piece.occupiedSquare.x, piece.occupiedSquare.y, piece.occupiedSquare.z] = null;
+            gameController.OnPieceRemoved(piece);
+        }
     }
 
     private void EndTurn()
@@ -409,7 +430,7 @@ public class Board : MonoBehaviour
         gameController.EndTurn();
     }
 
-    private void UpdateBoardOnPieceMove(Vector3Int newCoords, Vector3Int oldCoords, 
+    public void UpdateBoardOnPieceMove(Vector3Int newCoords, Vector3Int oldCoords, 
         Piece newPiece, Piece oldPiece)
     {
         grid[oldCoords.x, oldCoords.y, oldCoords.z] = oldPiece;

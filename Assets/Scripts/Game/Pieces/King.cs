@@ -33,6 +33,9 @@ public class King : Piece
         avaliableMoves.Add(occupiedSquare + new Vector3Int(-1, -1, 0));
         avaliableMoves.Add(occupiedSquare + new Vector3Int(0, 1, 0));
         avaliableMoves.Add(occupiedSquare + new Vector3Int(0, -1, 0));
+
+        base.SelectAvaliableSquares();
+
         return avaliableMoves;
     }
 }
