@@ -22,3 +22,6 @@ MonoBehaviour:
   - position: {x: 3, y: 0, z: 1}
     pieceType: 3
     teamColor: 1
+  - position: {x: 3, y: 7, z: 2}
+    pieceType: 1
+    teamColor: 0
