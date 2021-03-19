@@ -16,9 +16,30 @@ MonoBehaviour:
   - position: {x: 3, y: 0, z: 3}
     pieceType: 1
     teamColor: 1
-  - position: {x: 1, y: 7, z: 2}
+  - position: {x: 3, y: 7, z: 3}
     pieceType: 1
     teamColor: 0
-  - position: {x: 1, y: 0, z: 2}
-    pieceType: 2
+  - position: {x: 5, y: 0, z: 5}
+    pieceType: 1
     teamColor: 1
+  - position: {x: 5, y: 7, z: 5}
+    pieceType: 1
+    teamColor: 0
+  - position: {x: 4, y: 0, z: 4}
+    pieceType: 4
+    teamColor: 1
+  - position: {x: 4, y: 7, z: 4}
+    pieceType: 4
+    teamColor: 0
+  - position: {x: 3, y: 7, z: 5}
+    pieceType: 1
+    teamColor: 0
+  - position: {x: 3, y: 0, z: 5}
+    pieceType: 1
+    teamColor: 1
+  - position: {x: 5, y: 0, z: 3}
+    pieceType: 1
+    teamColor: 1
+  - position: {x: 5, y: 7, z: 3}
+    pieceType: 1
+    teamColor: 0
