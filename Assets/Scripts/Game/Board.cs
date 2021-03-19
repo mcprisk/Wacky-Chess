@@ -372,7 +372,6 @@ public class Board : MonoBehaviour
             {
                 SelectPiece(piece);
             }
-            //Debug.Log(selectedPiece);
         }
     }
 
