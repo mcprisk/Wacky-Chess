@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -25,10 +26,12 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject gameModeSelect;
 
     [Header("Screen Gameobjects")]
-    [SerializeField] private TMP_Dropdown gameLevelSelect;
+    [SerializeField] private TMP_Dropdown gameRoomSelect;
 
     private void Awake()
     {
+        gameRoomSelect.ClearOptions();
+        gameRoomSelect.AddOptions(Enum.GetNames(typeof(RoomName)).ToList());
         OnGameLaunched();
     }
 
@@ -50,8 +53,15 @@ public class UIManager : MonoBehaviour
         connect.SetActive(true);
     }
 
+    internal void OnGameStarted()
+    {
+        DisableAllScreens();
+        connectionStatusText.gameObject.SetActive(false);
+    }
+
     public void OnConnect()
     {
+        networkManager.SetRoom((RoomName)gameRoomSelect.value);
         networkManager.Connect();
     }
 
@@ -66,5 +76,29 @@ public class UIManager : MonoBehaviour
     public void SetConnectionStatus(string status)
     {
         connectionStatusText.text = status;
+    }
+
+    public void ShowTeamSelectionScreen()
+    {
+        DisableAllScreens();
+        teamSelect.SetActive(true);
+    }
+
+    public void SelectTeam(int team)
+    {
+        networkManager.SelectTeam(team);
+    }
+
+    internal void RestrictTeamChoice(TeamColor occupiedTeam)
+    {
+        var buttonToDeactivate = occupiedTeam == TeamColor.White ? 
+            whiteTeamButton : blackTeamButton;
+        buttonToDeactivate.interactable = false;
+    }
+
+    internal void OnGameFinished(string winner)
+    {
+        gameOver.SetActive(true);
+        resultText.text = string.Format("{0} Won!", winner);
     }
 }

@@ -5,34 +5,40 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(PieceCreator))]
-public class GameController : MonoBehaviour
+public abstract class GameController : MonoBehaviour
 {
-    private enum GameState { Init, Play, Finished };
-    private GameState state;
+    public enum GameState { Init, Play, Finished };
+    protected GameState state;
 
     [SerializeField] private BoardLayout startingBoardLayout;
-    [SerializeField] private Board board;
-    [SerializeField] private UIManager uiManager;
+    private Board board;
+    private UIManager uiManager;
+    private CameraFlip cameraFlip;
 
     private PieceCreator pieceCreator;
 
-    private Player whitePlayer;
-    private Player blackPlayer;
-    private Player activePlayer;
+    protected Player whitePlayer;
+    protected Player blackPlayer;
+    protected Player activePlayer;
+
+    protected abstract void SetGameState(GameState state);
+    public abstract void TryToStartGame();
+    public abstract bool CanPreformMove();
 
     private void Awake()
     {
-        Application.targetFrameRate = 144;
-        SetDependencies();
-        CreatePlayers();
-    }
-
-    private void SetDependencies()
-    {
         pieceCreator = GetComponent<PieceCreator>();
+        Application.targetFrameRate = 144;
     }
 
-    private void CreatePlayers()
+    public void SetDependencies(UIManager uiManager, Board board, CameraFlip camera)
+    {
+        this.uiManager = uiManager;
+        this.board = board;
+        cameraFlip = camera;
+    }
+
+    public void CreatePlayers()
     {
         whitePlayer = new Player(TeamColor.White, board);
         blackPlayer = new Player(TeamColor.Black, board);
@@ -51,15 +57,19 @@ public class GameController : MonoBehaviour
         }
     }
 
-    private void StartNewGame()
+    public void StartNewGame()
     {
-        //uiManager.HideUI();
+        uiManager.OnGameStarted();
         SetGameState(GameState.Init);
-        board.SetDependencies(this);
         CreatePiecesFromLayout(startingBoardLayout);
         activePlayer = whitePlayer;
         GenerateAllPossiblePlayerMoves(activePlayer);
-        SetGameState(GameState.Play);
+        TryToStartGame();
+    }
+
+    public void SetupCamera(TeamColor team)
+    {
+        cameraFlip.SetupCamera(team);
     }
 
     public void RestartGame()
@@ -124,13 +134,8 @@ public class GameController : MonoBehaviour
 
     private void EndGame()
     {
-        //uiManager.OnGameFinished(activePlayer.team.ToString());
+        uiManager.OnGameFinished(activePlayer.team.ToString());
         SetGameState(GameState.Finished);
-    }
-
-    private void SetGameState(GameState state)
-    {
-        this.state = state;
     }
 
     private bool CheckIfGameIsFinished()

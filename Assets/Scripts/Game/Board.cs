@@ -23,7 +23,7 @@ public abstract class Board : MonoBehaviour
     public abstract void SelectPieceMoved(Vector3 coords);
     public abstract void SetSelectedPiece(Vector3 coords);
 
-    private void Awake()
+    protected virtual void Awake()
     {
         squareSelector = GetComponent<SquareSelectorCreator>();
         CreateGrid();
@@ -349,7 +349,7 @@ public abstract class Board : MonoBehaviour
 
     public void OnSquareSelected(Vector3 inputPosition)
     {
-        if (!gameController.IsGameInProgress()) return;
+        if (!gameController || !gameController.CanPreformMove()) return;
 
         Vector3Int coords = CalculateCoordsFromPosition(inputPosition);
         Piece piece = GetPieceOnSquare(coords);
