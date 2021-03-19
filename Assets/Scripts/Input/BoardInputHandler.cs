@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(Board))]
+
 public class BoardInputHandler : MonoBehaviour, InputHandler
 {
     private Board board;
