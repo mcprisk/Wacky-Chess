@@ -5,7 +5,7 @@ using UnityEngine;
 
 [RequireComponent(typeof(SquareSelectorCreator))]
 
-public abstract class Board : MonoBehaviour
+public class Board : MonoBehaviour
 {
     public const int BOARD_SIZE = 8;
 
@@ -20,10 +20,7 @@ public abstract class Board : MonoBehaviour
     private GameController gameController;
     private SquareSelectorCreator squareSelector;
 
-    public abstract void SelectPieceMoved(Vector3 coords);
-    public abstract void SetSelectedPiece(Vector3 coords);
-
-    protected virtual void Awake()
+    private void Awake()
     {
         squareSelector = GetComponent<SquareSelectorCreator>();
         CreateGrid();
@@ -349,7 +346,7 @@ public abstract class Board : MonoBehaviour
 
     public void OnSquareSelected(Vector3 inputPosition)
     {
-        if (!gameController || !gameController.CanPreformMove()) return;
+        if (!gameController.IsGameInProgress()) return;
 
         Vector3Int coords = CalculateCoordsFromPosition(inputPosition);
         Piece piece = GetPieceOnSquare(coords);
@@ -359,44 +356,43 @@ public abstract class Board : MonoBehaviour
             {
                 DeselectPiece();
             }
-            else if (piece != null && selectedPiece != piece &&
+            else if (piece != null && selectedPiece != piece && 
                 gameController.IsTeamTurnActive(piece.team))
             {
-                SelectPiece(coords);
+                SelectPiece(piece);
             }
             else if (selectedPiece.CanMoveTo(coords))
             {
-                SelectPieceMoved(coords);
+                OnSelectedPieceMoved(coords, selectedPiece);
             }
         }
         else
         {
             if (piece != null && gameController.IsTeamTurnActive(piece.team))
             {
-                SelectPiece(coords);
+                SelectPiece(piece);
             }
             //Debug.Log(selectedPiece);
         }
     }
 
-    private void SelectPiece(Vector3Int coords)
+    private void SelectPiece(Piece piece)
     {
-        Piece piece = GetPieceOnSquare(coords);
         gameController.RemoveMovesEnablingAttackOn<King>(piece);
         gameController.RemoveMovesEnablingAttackOnSameColor(piece);
-        SetSelectedPiece(coords);
+        selectedPiece = piece;
         List<Vector3Int> selection = selectedPiece.avaliableMoves;
         ShowSelectionSquares(selection);
     }
 
     private void ShowSelectionSquares(List<Vector3Int> selection)
     {
-        Dictionary<Tuple<Vector3, Quaternion>, bool> squaresData =
+        Dictionary<Tuple<Vector3, Quaternion>, bool> squaresData = 
             new Dictionary<Tuple<Vector3, Quaternion>, bool>();
         for (int i = 0; i < selection.Count; ++i)
         {
             Vector3 position = CalculatePositionFromCoords(selection[i]);
-            if (position != new Vector3(-1, -1, -1))
+            if (position != new Vector3(-1,-1,-1))
             {
                 Quaternion rotation = CalculateRotationFromCoords(selection[i]);
                 bool isSquareFree = GetPieceOnSquare(selection[i]) == null;
@@ -410,19 +406,13 @@ public abstract class Board : MonoBehaviour
         selectedPiece = null;
         squareSelector.ClearSelections();
     }
-    public void OnSelectedPieceMoved(Vector3Int coords)
+    private void OnSelectedPieceMoved(Vector3Int coords, Piece piece)
     {
         TryToTakeOppositePiece(coords);
-        UpdateBoardOnPieceMove(coords, selectedPiece.occupiedSquare, selectedPiece, null);
+        UpdateBoardOnPieceMove(coords, piece.occupiedSquare, piece, null);
         selectedPiece.MovePiece(coords);
         DeselectPiece();
         EndTurn();
-    }
-
-    public void OnSetSelectedPiece(Vector3Int coords)
-    {
-        Piece piece = GetPieceOnSquare(coords);
-        selectedPiece = piece;
     }
 
     private void TryToTakeOppositePiece(Vector3Int coords)
@@ -447,7 +437,7 @@ public abstract class Board : MonoBehaviour
         gameController.EndTurn();
     }
 
-    public void UpdateBoardOnPieceMove(Vector3Int newCoords, Vector3Int oldCoords,
+    public void UpdateBoardOnPieceMove(Vector3Int newCoords, Vector3Int oldCoords, 
         Piece newPiece, Piece oldPiece)
     {
         grid[oldCoords.x, oldCoords.y, oldCoords.z] = oldPiece;
