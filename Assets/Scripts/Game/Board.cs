@@ -453,6 +453,16 @@ public class Board : MonoBehaviour
         return null;
     }
 
+    public bool CheckIfCoordsAreOnBlocker(Vector3Int coords)
+    {
+        if ((coords.x == 0 && coords.y == 0) ||
+            (coords.x == 7 && coords.y == 0) ||
+            (coords.z == 0 && coords.y == 7) ||
+            (coords.z == 7 && coords.y == 7))
+            return true;
+        return false;
+    }
+
     public bool CheckIfCoordsAreOnBoard(Vector3Int coords)
     {
         if (coords.x < 0 || coords.x >= BOARD_SIZE ||
@@ -460,11 +470,20 @@ public class Board : MonoBehaviour
             coords.z < 0 || coords.z >= BOARD_SIZE ||
             ((coords.x == 0 || coords.x == 7) &&
             (coords.y == 0 || coords.y == 7) &&
-            (coords.z == 0 || coords.z == 7)) || 
-            (coords.x == 0 && coords.y == 0) || // Blocked off areas
-            (coords.x == 7 && coords.y == 0) ||
-            (coords.z == 0 && coords.y == 7) ||
-            (coords.z == 7 && coords.y == 7))
+            (coords.z == 0 || coords.z == 7)))
+            return false;
+        if (CheckIfCoordsAreOnBlocker(coords))
+            return false;
+        if (CheckIfCoordsAreFloating(coords))
+            return false;
+        return true;
+    }
+
+    private bool CheckIfCoordsAreFloating(Vector3Int coords)
+    {
+        if (coords.x == 0 || coords.x == 7 ||
+            coords.y == 0 || coords.y == 7 ||
+            coords.z == 0 || coords.z == 7)
             return false;
         return true;
     }

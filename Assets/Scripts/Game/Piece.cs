@@ -76,9 +76,12 @@ public abstract class Piece : MonoBehaviour
         mover.MoveTo(transform, targetPosition, targetRotation);
     }
 
-    protected void TryToAddMove(Vector3Int coords)
+    protected bool TryToAddMove(Vector3Int coords)
     {
+        if (avaliableMoves.Contains(coords)) return false;
+        
         avaliableMoves.Add(coords);
+        return true;
     }
 
     public void SetData(Vector3Int coords, TeamColor team, Board board)
