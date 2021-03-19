@@ -44,11 +44,6 @@ public abstract class GameController : MonoBehaviour
         blackPlayer = new Player(TeamColor.Black, board);
     }
 
-    void Start()
-    {
-        StartNewGame();
-    }
-
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))

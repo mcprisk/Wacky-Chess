@@ -375,7 +375,6 @@ public abstract class Board : MonoBehaviour
             {
                 SelectPiece(coords);
             }
-            //Debug.Log(selectedPiece);
         }
     }
 
