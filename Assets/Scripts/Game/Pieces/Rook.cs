@@ -23,7 +23,7 @@ public class Rook : Piece
         return avaliableMoves;
     }
 
-    private void ContinueInNewDirection(Vector3Int startingCoords, Vector3Int startingDirection)
+    protected override void ContinueInNewDirection(Vector3Int startingCoords, Vector3Int startingDirection)
     {
         if (startingCoords.y == 7 && 
             (startingDirection == directions[0] || 
@@ -43,63 +43,40 @@ public class Rook : Piece
             MoveUntilStop(startingCoords, directions[2]);
         }
 
-        //else if (startingCoords.z == 7 &&
-        //    (startingDirection == directions[.l] ||
-        //    startingDirection == directions[1] ||
-        //    startingDirection == directions[4] ||
-        //    startingDirection == directions[5]))
-        //{
-
-        //}
-    }
-
-    private void MoveUntilStop(Vector3Int startingCoords, Vector3Int direction)
-    {
-        bool stopped = false;
-        int i = 0;
-        while (!stopped)
+        else if (startingCoords.z == 7 &&
+            (startingDirection == directions[0] ||
+            startingDirection == directions[1] ||
+            startingDirection == directions[2] ||
+            startingDirection == directions[3]))
         {
-            ++i;
-            Vector3Int nextCoords = startingCoords + direction * i;
-            Piece piece = board.GetPieceOnSquare(nextCoords);
-            if (!board.CheckIfCoordsAreOnBoard(nextCoords))
-            {
-                int count = 0;
-                if (nextCoords.x == 0 || nextCoords.x == 7) ++count;
-                if (nextCoords.y == 0 || nextCoords.y == 7) ++count;
-                if (nextCoords.z == 0 || nextCoords.z == 7) ++count;
+            MoveUntilStop(startingCoords, directions[5]);
+        }
 
-                if (count >= 2)
-                {
-                    stopped = true;
-                    break; // Hit a barrier, we do not want to continue
-                }
-                else
-                {
-                    ContinueInNewDirection(nextCoords - direction, direction);
-                    stopped = true;
-                    break;
-                }
-            }
-            if (piece == null)
-            {
-                if (!TryToAddMove(nextCoords))
-                {
-                    stopped = true;
-                    break;
-                } 
-            }
-            else if (!piece.IsFromSameTeam(this))
-            {
-                TryToAddMove(nextCoords);
-                stopped = true;
-                break;
-            }
-            else if (piece.IsFromSameTeam(this))
-            {
-                stopped = true;
-                break;
-            }
+        else if (startingCoords.z == 0 &&
+            (startingDirection == directions[0] ||
+            startingDirection == directions[1] ||
+            startingDirection == directions[2] ||
+            startingDirection == directions[3]))
+        {
+            MoveUntilStop(startingCoords, directions[4]);
+        }
+
+        else if (startingCoords.x == 7 &&
+            (startingDirection == directions[2] ||
+            startingDirection == directions[3] ||
+            startingDirection == directions[4] ||
+            startingDirection == directions[5]))
+        {
+            MoveUntilStop(startingCoords, directions[1]);
+        }
+
+        else if (startingCoords.x == 0 &&
+            (startingDirection == directions[2] ||
+            startingDirection == directions[3] ||
+            startingDirection == directions[4] ||
+            startingDirection == directions[5]))
+        {
+            MoveUntilStop(startingCoords, directions[0]);
         }
     }
 }

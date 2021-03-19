@@ -31,6 +31,8 @@ public abstract class Piece : MonoBehaviour
         return avaliableMoves;
     }
 
+    protected virtual void ContinueInNewDirection(Vector3Int startingCoords, Vector3Int startingDirection) { }
+
     private void Awake()
     {
         avaliableMoves = new List<Vector3Int>();
@@ -76,15 +78,58 @@ public abstract class Piece : MonoBehaviour
         mover.MoveTo(transform, targetPosition, targetRotation);
     }
 
-    protected bool TryToAddMove(Vector3Int coords)
+    protected void TryToAddMove(Vector3Int coords)
     {
-        if (avaliableMoves.Contains(coords)) return false;
-        
-        avaliableMoves.Add(coords);
-        return true;
+        if (!avaliableMoves.Contains(coords)) avaliableMoves.Add(coords);
     }
 
-    public void SetData(Vector3Int coords, TeamColor team, Board board)
+    protected void MoveUntilStop(Vector3Int startingCoords, Vector3Int direction)
+    {
+        bool stopped = false;
+        int i = 0;
+        while (!stopped)
+        {
+            ++i;
+            Vector3Int nextCoords = startingCoords + direction * i;
+            Piece piece = board.GetPieceOnSquare(nextCoords);
+            if (!board.CheckIfCoordsAreOnBoard(nextCoords))
+            {
+                int count = 0;
+                if (nextCoords.x == 0 || nextCoords.x == 7) ++count;
+                if (nextCoords.y == 0 || nextCoords.y == 7) ++count;
+                if (nextCoords.z == 0 || nextCoords.z == 7) ++count;
+
+                if (count >= 2)
+                {
+                    stopped = true;
+                    break; // Hit a barrier, we do not want to continue
+                }
+                else
+                {
+                    ContinueInNewDirection(nextCoords - direction, direction);
+                    stopped = true;
+                    break;
+                }
+            }
+            if (piece == null)
+            {
+                TryToAddMove(nextCoords); // Coords Already Added
+            }
+            else if (!piece.IsFromSameTeam(this))
+            {
+                TryToAddMove(nextCoords);
+                stopped = true;
+                break;
+            }
+            else if (piece.IsFromSameTeam(this))
+            {
+                stopped = true;
+                break;
+            }
+        }
+    }
+
+        public void SetData(Vector3Int coords, TeamColor team, Board board)
     {
         this.team = team;
         occupiedSquare = coords;
