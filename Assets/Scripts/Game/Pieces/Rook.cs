@@ -43,14 +43,14 @@ public class Rook : Piece
             MoveUntilStop(startingCoords, directions[2]);
         }
 
-        else if (startingCoords.z == 7 &&
-            (startingDirection == directions[.l] ||
-            startingDirection == directions[1] ||
-            startingDirection == directions[4] ||
-            startingDirection == directions[5]))
-        {
+        //else if (startingCoords.z == 7 &&
+        //    (startingDirection == directions[.l] ||
+        //    startingDirection == directions[1] ||
+        //    startingDirection == directions[4] ||
+        //    startingDirection == directions[5]))
+        //{
 
-        }
+        //}
     }
 
     private void MoveUntilStop(Vector3Int startingCoords, Vector3Int direction)
