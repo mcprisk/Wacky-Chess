@@ -47,13 +47,13 @@ public class GameController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            uiManager.ToggleMenu();
+            //uiManager.ToggleMenu();
         }
     }
 
     private void StartNewGame()
     {
-        uiManager.HideUI();
+        //uiManager.HideUI();
         SetGameState(GameState.Init);
         board.SetDependencies(this);
         CreatePiecesFromLayout(startingBoardLayout);
@@ -124,7 +124,7 @@ public class GameController : MonoBehaviour
 
     private void EndGame()
     {
-        uiManager.OnGameFinished(activePlayer.team.ToString());
+        //uiManager.OnGameFinished(activePlayer.team.ToString());
         SetGameState(GameState.Finished);
     }
 

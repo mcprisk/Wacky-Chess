@@ -7,23 +7,64 @@ using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
-    [SerializeField] private GameObject UIParent;
+    [Header("Scene Dependencies")]
+    [SerializeField] private NetworkManager networkManager;
+
+    [Header("Buttons")]
+    [SerializeField] private Button whiteTeamButton;
+    [SerializeField] private Button blackTeamButton;
+
+    [Header("Texts")]
     [SerializeField] private TextMeshProUGUI resultText;
+    [SerializeField] private TextMeshProUGUI connectionStatusText;
 
-    public void HideUI()
+    [Header("Screen Gameobjects")]
+    [SerializeField] private GameObject gameOver;
+    [SerializeField] private GameObject connect;
+    [SerializeField] private GameObject teamSelect;
+    [SerializeField] private GameObject gameModeSelect;
+
+    [Header("Screen Gameobjects")]
+    [SerializeField] private TMP_Dropdown gameLevelSelect;
+
+    private void Awake()
     {
-        UIParent.SetActive(false);
+        OnGameLaunched();
     }
 
-    public void OnGameFinished(string winner)
+    private void OnGameLaunched()
     {
-        UIParent.SetActive(true);
-        resultText.text = (winner != "Pause Menu:") ? string.Format("{0} Won!", winner) : winner;
+        DisableAllScreens();
+        gameModeSelect.SetActive(true);
     }
 
-    internal void ToggleMenu()
+    public void OnSinglePlayerModeSelected()
     {
-        if (UIParent.activeSelf) HideUI();
-        else OnGameFinished("Pause Menu:");
+        DisableAllScreens();
+    }
+
+    public void OnMultiPlayerModeSelected()
+    {
+        connectionStatusText.gameObject.SetActive(true);
+        DisableAllScreens();
+        connect.SetActive(true);
+    }
+
+    public void OnConnect()
+    {
+        networkManager.Connect();
+    }
+
+    private void DisableAllScreens()
+    {
+        gameOver.SetActive(false);
+        connect.SetActive(false);
+        teamSelect.SetActive(false);
+        gameModeSelect.SetActive(false);
+    }
+
+    public void SetConnectionStatus(string status)
+    {
+        connectionStatusText.text = status;
     }
 }
