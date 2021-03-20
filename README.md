@@ -7,7 +7,7 @@ $ git init
 ```
 Then, set this repository as the remote origin:
 ```bash
-$ git remote add origin "https://github.com/mcprisk/Wacky-Chess.git"
+$ git remote add origin https://github.com/UARTS-260-VR-3D-EFFECTS/Chess-Netorking-Tests.git"
 ```
 Lastly, remove excess files from your local repository:
 ```bash
