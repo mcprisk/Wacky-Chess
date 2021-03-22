@@ -13,11 +13,11 @@ MonoBehaviour:
   m_Name: Starting Board Layout
   m_EditorClassIdentifier: 
   boardSquares:
-  - position: {x: 3, y: 0, z: 3}
-    pieceType: 1
+  - position: {x: 3, y: 3, z: 0}
+    pieceType: 3
     teamColor: 1
-  - position: {x: 3, y: 7, z: 3}
-    pieceType: 1
+  - position: {x: 3, y: 4, z: 0}
+    pieceType: 3
     teamColor: 0
   - position: {x: 5, y: 0, z: 5}
     pieceType: 1
