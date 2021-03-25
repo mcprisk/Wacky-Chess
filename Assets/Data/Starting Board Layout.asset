@@ -20,10 +20,10 @@ MonoBehaviour:
     pieceType: 3
     teamColor: 0
   - position: {x: 5, y: 0, z: 5}
-    pieceType: 1
+    pieceType: 5
     teamColor: 1
   - position: {x: 5, y: 7, z: 5}
-    pieceType: 1
+    pieceType: 5
     teamColor: 0
   - position: {x: 4, y: 0, z: 4}
     pieceType: 4

@@ -152,17 +152,17 @@ public class Queen : Piece
         }
 
         if (startingCoords.y == 0 &&
-            (startingDirection == directions[17] ||
+            (startingDirection == directions[14] ||
             startingDirection == directions[15]))
         {
-            MoveUntilStop(startingCoords, directions[6]);
+            MoveUntilStop(startingCoords, directions[9]);
         }
 
         if (startingCoords.y == 0 &&
-            (startingDirection == directions[16] ||
-            startingDirection == directions[14]))
+            (startingDirection == directions[17] ||
+            startingDirection == directions[16]))
         {
-            MoveUntilStop(startingCoords, directions[9]);
+            MoveUntilStop(startingCoords, directions[6]);
         }
 
         // X
