@@ -155,14 +155,14 @@ public class Queen : Piece
             (startingDirection == directions[14] ||
             startingDirection == directions[15]))
         {
-            MoveUntilStop(startingCoords, directions[9]);
+            MoveUntilStop(startingCoords, directions[6]);
         }
 
         if (startingCoords.y == 0 &&
             (startingDirection == directions[17] ||
             startingDirection == directions[16]))
         {
-            MoveUntilStop(startingCoords, directions[6]);
+            MoveUntilStop(startingCoords, directions[9]);
         }
 
         // X
@@ -223,7 +223,7 @@ public class Queen : Piece
             MoveUntilStop(startingCoords, directions[15]);
         }
 
-        // Z
+        // +Z
 
         if (startingCoords.z == 7 &&
             (startingDirection == directions[9] ||
@@ -253,6 +253,8 @@ public class Queen : Piece
             MoveUntilStop(startingCoords, directions[16]);
         }
 
+        // -Z
+        
         if (startingCoords.z == 0 &&
             (startingDirection == directions[9] ||
             startingDirection == directions[6]))
@@ -264,7 +266,7 @@ public class Queen : Piece
             (startingDirection == directions[10] ||
             startingDirection == directions[13]))
         {
-            MoveUntilStop(startingCoords, directions[8]);
+            MoveUntilStop(startingCoords, directions[11]);
         }
 
         if (startingCoords.z == 0 &&
@@ -281,4 +283,28 @@ public class Queen : Piece
             MoveUntilStop(startingCoords, directions[17]);
         }
     }
+
+    //private Vector3Int[] directions = new Vector3Int[] {
+    //    // Rook Style
+    //    new Vector3Int(1,0,0),
+    //    new Vector3Int(-1,0,0),
+    //    new Vector3Int(0,1,0),
+    //    new Vector3Int(0,-1,0),
+    //    new Vector3Int(0,0,1),
+    //    new Vector3Int(0,0,-1),
+
+    //    // Bishop Style
+    //    new Vector3Int(1, 1, 0),       6
+    //    new Vector3Int(0, 1, 1),       7
+    //    new Vector3Int(0, 1, -1),      8
+    //    new Vector3Int(-1, 1, 0),      9
+    //    new Vector3Int(1, -1, 0),     10
+    //    new Vector3Int(0, -1, 1),     11
+    //    new Vector3Int(0, -1, -1),    12 
+    //    new Vector3Int(-1, -1, 0),    13
+    //    new Vector3Int(1, 0, 1),      14
+    //    new Vector3Int(1, 0, -1),     15
+    //    new Vector3Int(-1, 0, -1),    16
+    //    new Vector3Int(-1, 0, 1)      17
+    //};
 }

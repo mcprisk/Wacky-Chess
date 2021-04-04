@@ -95,7 +95,7 @@ public abstract class GameController : MonoBehaviour
         }
     }
 
-    private void CreatePieceAndInitialize(Vector3Int squareCoords, TeamColor team, Type type)
+    public void CreatePieceAndInitialize(Vector3Int squareCoords, TeamColor team, Type type)
     {
         Piece newPiece = pieceCreator.CreatePiece(type).GetComponent<Piece>();
         newPiece.SetData(squareCoords, team, board);
