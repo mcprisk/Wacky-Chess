@@ -464,10 +464,10 @@ public abstract class Board : MonoBehaviour
 
     public bool CheckIfCoordsAreOnBlocker(Vector3Int coords)
     {
-        if ((coords.x == 0 && coords.y == 0) ||
-            (coords.x == 7 && coords.y == 0) ||
-            (coords.z == 0 && coords.y == 7) ||
-            (coords.z == 7 && coords.y == 7))
+        if ((coords.x == 0 && coords.y == 0 && coords.z <= 7 && coords.z >= 0) ||
+            (coords.x == 7 && coords.y == 0 && coords.z <= 7 && coords.z >= 0) ||
+            (coords.z == 0 && coords.y == 7 && coords.x <= 7 && coords.x >= 0) ||
+            (coords.z == 7 && coords.y == 7 && coords.x <= 7 && coords.x >= 0))
             return true;
         return false;
     }

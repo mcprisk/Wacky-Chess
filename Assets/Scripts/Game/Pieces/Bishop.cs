@@ -73,6 +73,7 @@ public class Bishop : Piece
             startingDirection == directions[8]))
         {
             MoveUntilStop(startingCoords, directions[5]);
+            
         }
 
         if (startingCoords.y == 7 &&

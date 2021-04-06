@@ -94,12 +94,7 @@ public abstract class Piece : MonoBehaviour
             Piece piece = board.GetPieceOnSquare(nextCoords);
             if (!board.CheckIfCoordsAreOnBoard(nextCoords))
             {
-                int count = 0;
-                if (nextCoords.x == 0 || nextCoords.x == 7) ++count;
-                if (nextCoords.y == 0 || nextCoords.y == 7) ++count;
-                if (nextCoords.z == 0 || nextCoords.z == 7) ++count;
-
-                if (count >= 2)
+                if (board.CheckIfCoordsAreOnBlocker(nextCoords))
                 {
                     stopped = true;
                     break; // Hit a barrier, we do not want to continue
