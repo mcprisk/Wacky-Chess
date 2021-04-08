@@ -432,6 +432,21 @@ public abstract class Board : MonoBehaviour
 
     }
 
+    public void TakeAndReplace(Piece piece)
+    {
+        Vector3Int pieceSquare = piece.occupiedSquare;
+        TeamColor pieceTeam = piece.team;
+        TakePiece(piece);
+
+        Type type = Type.GetType("Queen");
+        gameController.CreatePieceAndInitialize(pieceSquare, pieceTeam, type);
+    }
+
+    public void PromotePawn(Piece piece)
+    {
+        gameController.PromotePawn(piece);
+    }
+
     private void TakePiece(Piece piece)
     {
         if (piece)

@@ -51,6 +51,7 @@ MonoBehaviour:
   - {fileID: 7192488550819159651, guid: ae4ca255eedef464991cdb12ea47d171, type: 3}
   - {fileID: 9156742326343738092, guid: 6c007b911eb371b45b525e1ec8f5fbb8, type: 3}
   - {fileID: 5179119124903622655, guid: 8bba5531ad5104d40bc41e94b6ae3b44, type: 3}
+  - {fileID: 3905049903692056604, guid: d4a23117a8c77844e950018a5247f8c1, type: 3}
   blackMaterial: {fileID: 2100000, guid: f024f3f5322692a4db7b87e5b251f0b8, type: 2}
   whiteMaterial: {fileID: 2100000, guid: 7fee736482e7dae44b177a02d3bf5682, type: 2}
   redMaterial: {fileID: 2100000, guid: 8856bdfad41aa7c4b836842f5705275f, type: 2}
@@ -68,5 +69,3 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startingBoardLayout: {fileID: 11400000, guid: 6ddd804d728bc6c40906793b9461101b,
     type: 2}
-  board: {fileID: 0}
-  uiManager: {fileID: 0}

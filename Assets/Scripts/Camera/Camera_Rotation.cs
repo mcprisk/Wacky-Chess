@@ -18,7 +18,9 @@ public class Camera_Rotation : MonoBehaviour
         rot_h += Input.GetAxis("Horizontal");
         rot_v += Input.GetAxis("Vertical");
 
-        rot = new Vector3(rot_v + 180, rot_h, 0f);
+        float offset = 69.231f;
+
+        rot = new Vector3(rot_v + offset, rot_h, 0f);
 
         transform.localEulerAngles = (rot * rot_speed * Time.deltaTime);
     }

@@ -1,96 +1,102 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Pawn : Piece
 {
+    private Vector3Int firstSquare;
+    private List<Vector3Int> moveDirections = new List<Vector3Int>();
+    private List<Vector3Int> attackDirections = new List<Vector3Int>();
+
+    private void Start()
+    {
+        firstSquare = occupiedSquare;
+        if (team == TeamColor.White)
+        {
+            if (occupiedSquare.z >= 4)
+            {
+                moveDirections.Add(new Vector3Int(0,0,1));
+                moveDirections.Add(new Vector3Int(0, 1, 0));
+                attackDirections.Add(new Vector3Int(1, 0, 1));
+                attackDirections.Add(new Vector3Int(-1, 0, 1));
+                attackDirections.Add(new Vector3Int(1, 1, 0));
+                attackDirections.Add(new Vector3Int(-1, 1, 0));
+            }
+            else
+            {
+                moveDirections.Add(new Vector3Int(0, 0, -1));
+                moveDirections.Add(new Vector3Int(0, 1, 0));
+                attackDirections.Add(new Vector3Int(1, 0, -1));
+                attackDirections.Add(new Vector3Int(-1, 0, -1));
+                attackDirections.Add(new Vector3Int(1, 1, 0));
+                attackDirections.Add(new Vector3Int(-1, 1, 0));
+            }
+
+            SelectAvaliableSquares();
+        } 
+        else
+        {
+            if (occupiedSquare.x >= 4)
+            {
+                moveDirections.Add(new Vector3Int(1, 0, 0));
+                moveDirections.Add(new Vector3Int(0, -1, 0));
+                attackDirections.Add(new Vector3Int(1, 0, 1));
+                attackDirections.Add(new Vector3Int(1, 0, -1));
+                attackDirections.Add(new Vector3Int(0, -1, -1));
+                attackDirections.Add(new Vector3Int(0, -1, -1));
+            }
+            else
+            {
+                moveDirections.Add(new Vector3Int(-1, 0, 0));
+                moveDirections.Add(new Vector3Int(0, -1, 0));
+                attackDirections.Add(new Vector3Int(-1, 0, 1));
+                attackDirections.Add(new Vector3Int(-1, 0, -1));
+                attackDirections.Add(new Vector3Int(0, -1, -1));
+                attackDirections.Add(new Vector3Int(0, -1, -1));
+            }
+
+            SelectAvaliableSquares();
+        }
+    }
+
     public override List<Vector3Int> SelectAvaliableSquares()
     {
         avaliableMoves.Clear();
 
-        // Directions Always Acceptable:
-        avaliableMoves.Add(occupiedSquare + new Vector3Int(1, 0, 0));
-        avaliableMoves.Add(occupiedSquare + new Vector3Int(-1, 0, 0));
-        avaliableMoves.Add(occupiedSquare + new Vector3Int(0, 0, 1));
-        avaliableMoves.Add(occupiedSquare + new Vector3Int(0, 0, -1));
-        avaliableMoves.Add(occupiedSquare + new Vector3Int(0, 1, 0));
-        avaliableMoves.Add(occupiedSquare + new Vector3Int(0, -1, 0));
+        MakeMove(occupiedSquare);
+        if (firstSquare == occupiedSquare)
+        {
+            foreach (var direction in moveDirections)
+            {
+                MakeMove(occupiedSquare + direction);
+            }
+        }
 
-
-        // Some Directions have to be curtailed based off of current face:
-        // If on -Y face, no +Y and +X or +Z movement as that will result 
-        // in moving 2 places, ect.
-
-        avaliableMoves.Add(occupiedSquare + new Vector3Int(1, 1, 0));
-        avaliableMoves.Add(occupiedSquare + new Vector3Int(0, 1, 1));
-        avaliableMoves.Add(occupiedSquare + new Vector3Int(0, 1, -1));
-        avaliableMoves.Add(occupiedSquare + new Vector3Int(-1, 1, 0));
-        avaliableMoves.Add(occupiedSquare + new Vector3Int(1, -1, 0));
-        avaliableMoves.Add(occupiedSquare + new Vector3Int(0, -1, 1));
-        avaliableMoves.Add(occupiedSquare + new Vector3Int(0, -1, -1));
-        avaliableMoves.Add(occupiedSquare + new Vector3Int(-1, -1, 0));
-        avaliableMoves.Add(occupiedSquare + new Vector3Int(1, 0, 1));
-        avaliableMoves.Add(occupiedSquare + new Vector3Int(1, 0, -1));
-        avaliableMoves.Add(occupiedSquare + new Vector3Int(-1, 0, -1));
-        avaliableMoves.Add(occupiedSquare + new Vector3Int(-1, 0, 1));
-
-        // All moves forbidden on -Y:
-        if (occupiedSquare.y == 0 && occupiedSquare.x != 0 && occupiedSquare.z != 0
-            && occupiedSquare.x != 7 && occupiedSquare.z != 7)
+        foreach (var direction in attackDirections)
         {
-            avaliableMoves.Remove(occupiedSquare + new Vector3Int(1, 1, 0));
-            avaliableMoves.Remove(occupiedSquare + new Vector3Int(0, 1, 1));
-            avaliableMoves.Remove(occupiedSquare + new Vector3Int(0, 1, -1));
-            avaliableMoves.Remove(occupiedSquare + new Vector3Int(-1, 1, 0));
-        }
-        // All moves forbidden on +Y:
-        if (occupiedSquare.y == 7 && occupiedSquare.x != 0 && occupiedSquare.z != 0
-            && occupiedSquare.x != 7 && occupiedSquare.z != 7)
-        {
-            avaliableMoves.Remove(occupiedSquare + new Vector3Int(1, -1, 0));
-            avaliableMoves.Remove(occupiedSquare + new Vector3Int(0, -1, 1));
-            avaliableMoves.Remove(occupiedSquare + new Vector3Int(0, -1, -1));
-            avaliableMoves.Remove(occupiedSquare + new Vector3Int(-1, -1, 0));
-        }
-        // All moves forbidden on -X:
-        if (occupiedSquare.x == 0 && occupiedSquare.y != 0 && occupiedSquare.z != 0
-            && occupiedSquare.y != 7 && occupiedSquare.z != 7)
-        {
-            avaliableMoves.Remove(occupiedSquare + new Vector3Int(1, 1, 0));
-            avaliableMoves.Remove(occupiedSquare + new Vector3Int(1, -1, 0));
-            avaliableMoves.Remove(occupiedSquare + new Vector3Int(1, 0, 1));
-            avaliableMoves.Remove(occupiedSquare + new Vector3Int(1, 0, -1));
-        }
-        // All moves forbidden on +X:
-        if (occupiedSquare.x == 7 && occupiedSquare.y != 0 && occupiedSquare.z != 0
-            && occupiedSquare.y != 7 && occupiedSquare.z != 7)
-        {
-            avaliableMoves.Remove(occupiedSquare + new Vector3Int(-1, -1, 0));
-            avaliableMoves.Remove(occupiedSquare + new Vector3Int(-1, 0, -1));
-            avaliableMoves.Remove(occupiedSquare + new Vector3Int(-1, 0, 1));
-            avaliableMoves.Remove(occupiedSquare + new Vector3Int(-1, 1, 0));
-        }
-        // All moves forbidden on -Z:
-        if (occupiedSquare.z == 0 && occupiedSquare.x != 0 && occupiedSquare.y != 0
-            && occupiedSquare.x != 7 && occupiedSquare.y != 7)
-        {
-            avaliableMoves.Remove(occupiedSquare + new Vector3Int(-1, 0, 1));
-            avaliableMoves.Remove(occupiedSquare + new Vector3Int(1, 0, 1));
-            avaliableMoves.Remove(occupiedSquare + new Vector3Int(0, -1, 1));
-            avaliableMoves.Remove(occupiedSquare + new Vector3Int(0, 1, 1));
-        }
-        // All moves forbidden on +Z:
-        if (occupiedSquare.z == 7 && occupiedSquare.x != 0 && occupiedSquare.y != 0
-            && occupiedSquare.x != 7 && occupiedSquare.y != 7)
-        {
-            avaliableMoves.Remove(occupiedSquare + new Vector3Int(-1, 0, -1));
-            avaliableMoves.Remove(occupiedSquare + new Vector3Int(1, 0, -1));
-            avaliableMoves.Remove(occupiedSquare + new Vector3Int(0, -1, -1));
-            avaliableMoves.Remove(occupiedSquare + new Vector3Int(0, 1, -1));
+            if (board.GetPieceOnSquare(occupiedSquare + direction))
+                avaliableMoves.Add(occupiedSquare + direction);
         }
 
         base.SelectAvaliableSquares();
 
         return avaliableMoves;
+    }
+
+    private void MakeMove(Vector3Int square)
+    {
+        foreach (var direction in moveDirections)
+        {
+            if (!avaliableMoves.Contains(square + direction) && !board.GetPieceOnSquare(square + direction))
+                avaliableMoves.Add(square + direction);
+            if (board.CheckIfCoordsAreOnBlocker(square + direction))
+                PromotePawn();
+        }
+    }
+
+    private void PromotePawn()
+    {
+        board.PromotePawn(this);
     }
 }

@@ -9,6 +9,8 @@ public class Player
     public TeamColor team { get; set; }
     public Board board { get; set; }
     public List<Piece> activePieces { get; private set; }
+
+    public Piece killPawn;
     public Player(TeamColor team, Board board)
     {
         this.board = board;
@@ -36,6 +38,10 @@ public class Player
             {
                 piece.SelectAvaliableSquares();
             }
+        }
+        if (killPawn)
+        {
+            board.TakeAndReplace(killPawn);
         }
     }
 

@@ -9,6 +9,7 @@ public class CameraFlip : MonoBehaviour
 
     public void SetupCamera(TeamColor team)
     {
+        mainCamera.transform.rotation = Quaternion.Euler(0,90,0);
         if (team == TeamColor.Black)
             FlipCamera();
     }

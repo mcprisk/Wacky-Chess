@@ -14,6 +14,7 @@ public class SinglePlayerGameController : GameController
     public override void TryToStartGame()
     {
         SetGameState(GameState.Play);
+        SetupCamera(TeamColor.White);
     }
 
     protected override void SetGameState(GameState state)

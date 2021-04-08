@@ -13,27 +13,24 @@ MonoBehaviour:
   m_Name: Starting Board Layout
   m_EditorClassIdentifier: 
   boardSquares:
-  - position: {x: 4, y: 0, z: 3}
-    pieceType: 2
+  - position: {x: 6, y: 0, z: 6}
+    pieceType: 7
     teamColor: 1
-  - position: {x: 1, y: 0, z: 0}
-    pieceType: 2
-    teamColor: 0
-  - position: {x: 4, y: 0, z: 1}
-    pieceType: 2
+  - position: {x: 5, y: 0, z: 4}
+    pieceType: 7
     teamColor: 1
-  - position: {x: 1, y: 0, z: 3}
-    pieceType: 2
-    teamColor: 0
-  - position: {x: 3, y: 1, z: 7}
-    pieceType: 3
+  - position: {x: 4, y: 0, z: 6}
+    pieceType: 7
     teamColor: 1
-  - position: {x: 1, y: 3, z: 7}
-    pieceType: 2
+  - position: {x: 4, y: 7, z: 4}
+    pieceType: 7
     teamColor: 0
-  - position: {x: 3, y: 7, z: 1}
-    pieceType: 2
+  - position: {x: 4, y: 7, z: 5}
+    pieceType: 7
     teamColor: 0
-  - position: {x: 1, y: 7, z: 3}
-    pieceType: 2
+  - position: {x: 4, y: 7, z: 6}
+    pieceType: 7
+    teamColor: 0
+  - position: {x: 2, y: 0, z: 3}
+    pieceType: 7
     teamColor: 1

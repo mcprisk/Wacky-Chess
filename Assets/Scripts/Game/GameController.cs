@@ -184,4 +184,9 @@ public abstract class GameController : MonoBehaviour
     {
         activePlayer.RemoveMovesEnablingAttackOnSameColor(piece);
     }
+
+    public void PromotePawn(Piece piece)
+    {
+        activePlayer.killPawn = piece;
+    }
 }
