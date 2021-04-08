@@ -1,5 +1,5 @@
-# Wacky Chess
-Reforming Chess: Playing Chess (or Checkers) Inside of a Cube
+# Chess Networking Tests
+Multiplayer Chess - but its inside a cube to be fancy.
 ## Initial Setup
 To contribute to this project, create a new, empty unity project and initialize a local git repository within that folder:
 ```bash
@@ -7,10 +7,11 @@ $ git init
 ```
 Then, set this repository as the remote origin:
 ```bash
-$ git remote add origin "https://github.com/mcprisk/Wacky-Chess.git"
+$ git remote add origin https://github.com/UARTS-260-VR-3D-EFFECTS/Chess-Netorking-Tests.git"
 ```
 Lastly, remove excess files from your local repository:
 ```bash
+$ rm -rf Assets
 $ rm -rf ProjectSettings
 $ rm -rf Packages
 ```
@@ -24,9 +25,10 @@ Now you can make whatever changes you want in unity or an IDE of your choosing. 
 ## Check for Remote Changes
 After making your changes check to make sure your local repository is still up to date:
 ```bash
+$ git fetch
+$ git status
 $ git pull origin master
 ```
-Note: this is not the best method for checking for remote changes, but is the easiest to understand.
 If there were updates that were merged when you pulled, make sure your changes still work before continuing to the next step!
 
 ## Push your Changes
