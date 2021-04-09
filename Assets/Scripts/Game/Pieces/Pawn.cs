@@ -69,7 +69,8 @@ public class Pawn : Piece
         {
             foreach (var direction in moveDirections)
             {
-                MakeMove(occupiedSquare + direction);
+                if (!board.GetPieceOnSquare(occupiedSquare + direction))
+                    MakeMove(occupiedSquare + direction);
             }
         }
 
