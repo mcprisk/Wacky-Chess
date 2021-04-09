@@ -13,12 +13,12 @@ MonoBehaviour:
   m_Name: Starting Board Layout
   m_EditorClassIdentifier: 
   boardSquares:
-  - position: {x: 6, y: 0, z: 3}
-    pieceType: 0
-    teamColor: 1
-  - position: {x: 6, y: 0, z: 4}
-    pieceType: 0
-    teamColor: 1
+  - position: {x: 4, y: 7, z: 5}
+    pieceType: 2
+    teamColor: 0
+  - position: {x: 3, y: 7, z: 5}
+    pieceType: 1
+    teamColor: 0
   - position: {x: 5, y: 0, z: 5}
     pieceType: 0
     teamColor: 1
@@ -55,22 +55,22 @@ MonoBehaviour:
   - position: {x: 2, y: 0, z: 2}
     pieceType: 0
     teamColor: 1
-  - position: {x: 1, y: 0, z: 3}
-    pieceType: 0
-    teamColor: 1
-  - position: {x: 1, y: 0, z: 4}
-    pieceType: 0
-    teamColor: 1
-  - position: {x: 5, y: 0, z: 3}
+  - position: {x: 3, y: 7, z: 2}
+    pieceType: 1
+    teamColor: 0
+  - position: {x: 4, y: 7, z: 2}
+    pieceType: 2
+    teamColor: 0
+  - position: {x: 5, y: 0, z: 4}
     pieceType: 2
     teamColor: 1
-  - position: {x: 5, y: 0, z: 4}
-    pieceType: 1
-    teamColor: 1
-  - position: {x: 2, y: 0, z: 4}
+  - position: {x: 5, y: 0, z: 3}
     pieceType: 1
     teamColor: 1
   - position: {x: 2, y: 0, z: 3}
+    pieceType: 1
+    teamColor: 1
+  - position: {x: 2, y: 0, z: 4}
     pieceType: 2
     teamColor: 1
   - position: {x: 3, y: 0, z: 3}
@@ -85,11 +85,11 @@ MonoBehaviour:
   - position: {x: 4, y: 0, z: 4}
     pieceType: 3
     teamColor: 1
-  - position: {x: 3, y: 7, z: 6}
-    pieceType: 0
+  - position: {x: 3, y: 7, z: 3}
+    pieceType: 5
     teamColor: 0
-  - position: {x: 4, y: 7, z: 6}
-    pieceType: 0
+  - position: {x: 3, y: 7, z: 4}
+    pieceType: 5
     teamColor: 0
   - position: {x: 5, y: 7, z: 5}
     pieceType: 0
@@ -126,30 +126,6 @@ MonoBehaviour:
     teamColor: 0
   - position: {x: 2, y: 7, z: 2}
     pieceType: 0
-    teamColor: 0
-  - position: {x: 3, y: 7, z: 1}
-    pieceType: 0
-    teamColor: 0
-  - position: {x: 4, y: 7, z: 1}
-    pieceType: 0
-    teamColor: 0
-  - position: {x: 3, y: 7, z: 5}
-    pieceType: 2
-    teamColor: 0
-  - position: {x: 4, y: 7, z: 5}
-    pieceType: 1
-    teamColor: 0
-  - position: {x: 4, y: 7, z: 2}
-    pieceType: 1
-    teamColor: 0
-  - position: {x: 3, y: 7, z: 2}
-    pieceType: 2
-    teamColor: 0
-  - position: {x: 3, y: 7, z: 3}
-    pieceType: 5
-    teamColor: 0
-  - position: {x: 3, y: 7, z: 4}
-    pieceType: 5
     teamColor: 0
   - position: {x: 4, y: 7, z: 3}
     pieceType: 4
